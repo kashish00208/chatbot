@@ -1,9 +1,10 @@
-import Image from "next/image";
+import ChatComponent from "./components/ChatComponet";
 
 export default function Home() {
   return (
     <>
-    chatbot
+    <h1 className="text-center text-3xl bold">ChatBot</h1>
+    <ChatComponent/>
     </>
   );
 }
