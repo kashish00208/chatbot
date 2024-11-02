@@ -1,9 +1,8 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 const ChatComponent = () => {
   const [prompt, setPrompt] = useState("");
-  const [response, setResponse] = useState("");
   const [message, setMessage] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -11,6 +10,14 @@ const ChatComponent = () => {
 
   const scroll = () => {
     msgEnd.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scroll(); 
+  }, [message]);
+
+  const handleInputChange = (e) => {
+    setPrompt(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -32,7 +39,12 @@ const ChatComponent = () => {
       }
 
       const data = await res.json();
-      setResponse(data.output);
+      setMessage((prevMessages) => [
+        ...prevMessages,
+        { sender: "user", text: prompt },
+        { sender: "bot", text: data.output },
+      ]);
+      setPrompt('');
     } catch (error) {
       setError("An error occurred: " + error.message);
     } finally {
@@ -41,30 +53,29 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className= "w-screen h-screen bg-slate-500">
+    <div className="w-screen h-screen bg-slate-500">
       <div className="w-3/4 px-40 py-24">
-        <div className="">
-          <form onSubmit={handleSubmit} className="w-full bottom-0 fixed px-10 py-14 ">
-            <input
-              className="w-2/4 rounded-2xl"
-              type="text"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Type your prompt here"
-              required
-            />
-            <button type="submit" disabled={loading} className="ml-8">
-              {loading ? "Generating..." : "Submit"}
-            </button>
-          </form>
+        <div className="messages overflow-auto"  style={{ maxHeight: "70vh"}}>
+          {message.map((msg, index) => (
+            <p key={index} className='text-black'>
+              {msg.text}
+            </p>
+          ))}
+          <div ref={msgEnd} />
         </div>
+        <form onSubmit={handleSubmit} className="w-full bottom-0 fixed px-10 py-14">
+          <input
+            className="w-2/4 rounded-xl h-10"
+            type="text"
+            value={prompt}
+            onChange={handleInputChange}
+            placeholder="Type your prompt here"
+            required
+          />
+          <button type="submit" disabled={loading} className="ml-8">
+          </button>
+        </form>
         {error && <div style={{ color: "red" }}>{error}</div>}
-        {response && (
-          <div>
-            <h3>Response:</h3>
-            <p className="text-black">{response}</p>
-          </div>
-        )}
       </div>
     </div>
   );
