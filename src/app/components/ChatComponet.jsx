@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-
 const ChatComponent = () => {
   const [prompt, setPrompt] = useState("");
   const [message, setMessage] = useState([]);
@@ -54,7 +53,7 @@ const ChatComponent = () => {
 
   return (
     <div className="w-screen h-screen bg-slate-500">
-      <div className="w-3/4 px-40 py-24">
+      <div className="w-3/4 md:px-40 md:py-24">
         <div className="messages overflow-auto"  style={{ maxHeight: "70vh"}}>
           {message.map((msg, index) => (
             <p key={index} className='text-black'>
@@ -63,16 +62,17 @@ const ChatComponent = () => {
           ))}
           <div ref={msgEnd} />
         </div>
-        <form onSubmit={handleSubmit} className="w-full bottom-0 fixed px-10 py-14">
+        <form onSubmit={handleSubmit} className="w-full bottom-0 pl-2 md:pl-12 fixed py-14 ">
           <input
-            className="w-2/4 rounded-xl h-10"
+            className="w-3/4 md:w-2/4 rounded-xl rounded-r-none h-10 "
             type="text"
             value={prompt}
             onChange={handleInputChange}
             placeholder="Type your prompt here"
             required
           />
-          <button type="submit" disabled={loading} className="ml-8">
+          <button type="submit" disabled={loading} className=" bg-white text-black rounded-r-xl h-10 pr-3 ">
+            {loading?"Generating": "Submit"}
           </button>
         </form>
         {error && <div style={{ color: "red" }}>{error}</div>}
