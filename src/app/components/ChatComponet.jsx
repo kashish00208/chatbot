@@ -52,17 +52,17 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-slate-500">
+    <div className="w-screen h-screen bg-slate-950 bg-opacity-95">
       <div className="w-3/4 md:px-40 md:py-24">
         <div className="messages overflow-auto"  style= {{ maxHeight: "70vh"}}>
           {message.map((msg, index) => (
-            <p key={index} className='text-black'>
+            <p key={index} className={`text-2xl m-2 rounded-md ${msg.sender==='user'?'bg-slate-950 bg-opacity-85 text-white':'bg-black opacity-85 text-white'}`}>
               {msg.text}
             </p>
           ))}
           <div ref={msgEnd} />
         </div>
-        <form onSubmit={handleSubmit} className="w-full bottom-0 pl-2 md:pl-12 fixed py-14 ">
+        <form onSubmit={handleSubmit} className="w-full bottom-0 pl-3 md:pl-12 fixed py-14 ">
           <input
             className="w-3/4 md:w-2/4 rounded-xl rounded-r-none h-10 "
             type="text"
