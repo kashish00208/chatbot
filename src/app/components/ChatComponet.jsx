@@ -52,13 +52,13 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-slate-950 bg-opacity-95">
-      <div className="w-3/4 md:px-40 md:py-24">
-        <div className="messages overflow-auto"  style= {{ maxHeight: "70vh"}}>
+    <div className="w-screen h-screen bg-black bg-opacity-90" >
+      <div className="md:w-3/4 md:px-40 md:py-24 p-6">
+        <div className="messages overflow-auto flex flex-col justify-center pl-5"  style= {{ maxHeight: "70vh"}}>
           {message.map((msg, index) => (
-            <p key={index} className={`text-2xl m-2 rounded-md ${msg.sender==='user'?'bg-slate-950 bg-opacity-85 text-white':'bg-black opacity-85 text-white'}`}>
+            <span key={index} className={`m-2 relative shadow-lg rounded-md ${msg.sender==='user'?'bg-purple-600 bg-opacity-60 p-2 text-white':'bg-black p-2 opacity-60 text-end text-white'}`}>
               {msg.text}
-            </p>
+            </span>
           ))}
           <div ref={msgEnd} />
         </div>
