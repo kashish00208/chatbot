@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
+
 const ChatComponent = () => {
   const [prompt, setPrompt] = useState("");
   const [message, setMessage] = useState([]);
@@ -12,7 +13,7 @@ const ChatComponent = () => {
   };
 
   useEffect(() => {
-    scroll(); 
+    scroll();
   }, [message]);
 
   const handleInputChange = (e) => {
@@ -43,7 +44,7 @@ const ChatComponent = () => {
         { sender: "user", text: prompt },
         { sender: "bot", text: data.output },
       ]);
-      setPrompt('');
+      setPrompt("");
     } catch (error) {
       setError("An error occurred: " + error.message);
     } finally {
@@ -52,27 +53,42 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-black bg-opacity-90" >
-      <div className="md:w-3/4 md:px-40 md:py-24 p-6">
-        <div className="messages overflow-auto flex flex-col justify-center pl-5"  style= {{ maxHeight: "70vh"}}>
+    <div className="w-full h-auto bg-purple-200 bg-opacity-80">
+      <div className="md:w-3/4 md:px-40 md:py-24 p-6 flex flex-col h-screen">
+        <div className="messages overflow-y-auto flex-grow pl-5 mb-4">
           {message.map((msg, index) => (
-            <span key={index} className={`m-2 relative shadow-lg rounded-md ${msg.sender==='user'?'bg-purple-600 bg-opacity-60 p-2 text-white':'bg-black p-2 opacity-60 text-end text-white'}`}>
-              {msg.text}
-            </span>
+            <p key={index}>
+              <span
+                className={`m-2 relative shadow-lg rounded-md ${
+                  msg.sender === "user"
+                    ? "bg-purple-600 inline-block bg-opacity-60 p-2 text-black"
+                    : "bg-white p-2 inline-block opacity-60 text-black"
+                }`}
+              >
+                {msg.text}
+              </span>
+            </p>
           ))}
           <div ref={msgEnd} />
         </div>
-        <form onSubmit={handleSubmit} className="w-full bottom-0 pl-3 md:pl-12 fixed py-14 ">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full flex pl-3 md:pl-12"
+        >
           <input
-            className="w-3/4 md:w-2/4 rounded-xl rounded-r-none h-10 "
+            className="flex-grow rounded-xl rounded-r-none h-10 border-purple-600 border-4 border-r-0"
             type="text"
             value={prompt}
             onChange={handleInputChange}
             placeholder="Type your prompt here"
             required
           />
-          <button type="submit" disabled={loading} className=" bg-white text-black rounded-r-xl h-10 pr-3 ">
-            {loading?"Generating": "Submit"}
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-white text-black rounded-r-xl h-10 pr-3 border-purple-600 border-4 border-l-0"
+          >
+            {loading ? "Generating" : "Submit"}
           </button>
         </form>
         {error && <div style={{ color: "red" }}>{error}</div>}
