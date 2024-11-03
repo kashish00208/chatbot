@@ -54,7 +54,7 @@ const ChatComponent = () => {
   return (
     <div className="w-screen h-screen bg-slate-500">
       <div className="w-3/4 md:px-40 md:py-24">
-        <div className="messages overflow-auto"  style={{ maxHeight: "70vh"}}>
+        <div className="messages overflow-auto"  style= {{ maxHeight: "70vh"}}>
           {message.map((msg, index) => (
             <p key={index} className='text-black'>
               {msg.text}
