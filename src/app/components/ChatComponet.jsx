@@ -57,8 +57,8 @@ const ChatComponent = () => {
       className="w-full h-auto  bg-opacity-80"
       style={{ backgroundColor: "#222327" }}
     >
-      <div className="md:w-3/4 md:px-40 md:py-24 p-6 flex flex-col h-screen">
-        <div className="messages overflow-y-auto flex-grow pl-5 mb-4">
+      <div className="md:w-3/4 p-6 flex flex-col h-screen lg:mx-40 md:mx-20">
+        <div className="messages overflow-y-auto flex-grow pl-5 mb-4 ">
           {message.map((msg, index) => (
             <p key={index}>
               <span
