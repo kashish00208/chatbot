@@ -53,7 +53,7 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="w-full h-auto bg-purple-200 bg-opacity-80">
+    <div className="w-full h-auto  bg-opacity-80" style={{backgroundColor:"#222327"}}>
       <div className="md:w-3/4 md:px-40 md:py-24 p-6 flex flex-col h-screen">
         <div className="messages overflow-y-auto flex-grow pl-5 mb-4">
           {message.map((msg, index) => (
@@ -76,9 +76,10 @@ const ChatComponent = () => {
           className="w-full flex pl-3 md:pl-12"
         >
           <input
-            className="flex-grow rounded-xl rounded-r-none h-10 border-purple-600 border-4 border-r-0"
+            className="flex-grow rounded-xl rounded-r-none h-10 text-white text-lg p-4"
             type="text"
             value={prompt}
+            style={{backgroundColor:"#474747"}}
             onChange={handleInputChange}
             placeholder="Type your prompt here"
             required
@@ -86,7 +87,8 @@ const ChatComponent = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-white text-black rounded-r-xl h-10 pr-3 border-purple-600 border-4 border-l-0"
+            style={{backgroundColor:"#474747"}}
+            className=" text-white rounded-r-xl h-10 pr-3 text-lg"
           >
             {loading ? "Generating" : "Submit"}
           </button>
