@@ -54,8 +54,7 @@ const ChatComponent = () => {
 
   return (
     <div
-      className="w-full h-auto  bg-opacity-80"
-      style={{ backgroundColor: "#222327" }}
+      className="w-full h-auto bg-purple-200 bg-opacity-80"
     >
       <div className="md:w-3/4 p-6 flex flex-col h-screen lg:mx-40 md:mx-20">
         <div className="messages overflow-y-auto flex-grow pl-5 mb-4 ">
@@ -64,8 +63,8 @@ const ChatComponent = () => {
               <span
                 className={`m-2 relative shadow-lg rounded-md ${
                   msg.sender === "user"
-                    ? " inline-block bg-opacity-60 p-2 text-white"
-                    : " p-2 inline-block opacity-60 text-white"
+                    ? "bg-purple-600 inline-block bg-opacity-60 p-2 text-black"
+                    : " p-2 bg-white inline-block opacity-60 text-black"
                 }`}
               >
                 {msg.text}
