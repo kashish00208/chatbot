@@ -10,7 +10,7 @@ export async function POST(req, res) {
     });
     const data = await req.json();
 
-    const prompt = "Provide a short and concise answers of prompt ."+data.body;
+    const prompt = "Provide a short and concise answers of prompt ." +data.body; 
     if (!prompt) {
       return NextResponse.json(
         { error: "Prompt is required" },
