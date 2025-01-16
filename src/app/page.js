@@ -1,5 +1,4 @@
-import ChatComponent from "../../components/ChatComponet";
-import Topbar from "../../components/Topbar";
+import ChatComponent from "./components/ChatComponet";
 
 export default function Home() {
   return (
