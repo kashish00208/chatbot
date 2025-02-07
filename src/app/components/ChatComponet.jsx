@@ -59,7 +59,7 @@ const ChatComponent = () => {
       </div>
       <div className="chat">
         <div className="md:w-3/4 p-6 flex flex-col h-screen lg:mx-40 md:mx-20">
-          <div className="messages overflow-y-auto flex-grow pl-5 mb-4 ">
+          <div className="messages overflow-y-auto flex-grow pl-5 mb-4 scroll-smooth ">
             {message.map((msg, index) => (
               <p key={index}>
                 <span

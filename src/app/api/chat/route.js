@@ -10,7 +10,10 @@ export async function POST(req, res) {
     });
     const data = await req.json();
 
-    const prompt = "Provide a short and concise answers of prompt ." +data.body; 
+    const prompt = data.previousQuestion 
+  ? "Provide a short, concise, and relevant answer based on the previous question: " + data.previousQuestion + ". Now answer this: " + data.body
+  : "Provide a short, concise, and clear answer to the following question: " + data.body;
+
     if (!prompt) {
       return NextResponse.json(
         { error: "Prompt is required" },
