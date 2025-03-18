@@ -3,44 +3,36 @@ import React, { useRef, useState, useEffect } from "react";
 
 const ChatComponent = () => {
   const [prompt, setPrompt] = useState("");
-  const [message, setMessage] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const msgEnd = useRef(null);
 
-  const scroll = () => {
-    msgEnd.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scroll();
-  }, [message]);
+    msgEnd.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
-  const handleInputChange = (e) => {
-    setPrompt(e.target.value);
-  };
+  const handleInputChange = (e) => setPrompt(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!prompt.trim()) return;
+    
     setLoading(true);
     setError("");
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ body: prompt }),
       });
 
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
+      if (!res.ok) throw new Error("Network error");
 
       const data = await res.json();
-      setMessage((prevMessages) => [
-        ...prevMessages,
+      setMessages((prev) => [
+        ...prev,
         { sender: "user", text: prompt },
         { sender: "bot", text: data.output },
       ]);
@@ -53,48 +45,48 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="Main-conatiner bg-black bg-opacity-90 w-full h-auto ">
-      <div className="left-bar w-1/4 h-auto ">
-      
-      </div>
-      <div className="chat">
-        <div className="md:w-3/4 p-6 flex flex-col h-screen lg:mx-40 md:mx-20">
-          <div className="messages overflow-y-auto flex-grow pl-5 mb-4 scroll-smooth ">
-            {message.map((msg, index) => (
-              <p key={index}>
-                <span
-                  className={`m-2 relative shadow-lg rounded-md ${
-                    msg.sender === "user"
-                      ? "bg-purple-600 inline-block bg-opacity-60 p-2 text-black"
-                      : " p-2 bg-white inline-block opacity-60 text-black"
-                  }`}
-                >
-                  {msg.text}
-                </span>
-              </p>
-            ))}
-            <div ref={msgEnd} />
-          </div>
-          <form onSubmit={handleSubmit} className="w-full flex pl-3 md:pl-12">
-            <input
-              className="flex-grow rounded-sm rounded-r-none h-10 text-white text-lg p-4 bg-black bg-opacity-0 border border-white"
-              type="text"
-              value={prompt}
-              onChange={handleInputChange}
-              placeholder="Ask anything"
-              required
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              style={{ backgroundColor: "#474747" }}
-              className=" text-white rounded-r-sm h-10 pr-3 text-base bg-black bg-opacity-0 border border-white"
-            >
-              {loading ? "Generating" : "Submit"}
-            </button>
-          </form>
-          {error && <div style={{ color: "red" }}>{error}</div>}
+    <div className="flex justify-center items-center min-h-screen bg-gray-900">
+      <div className="w-full max-w-3xl flex flex-col h-[90vh] bg-gray-800 rounded-lg shadow-lg">
+        <div className="py-4 px-6 border-b border-gray-700 text-white text-lg font-semibold">
+          AI Chat
         </div>
+        <div className="flex-grow overflow-y-auto p-6 space-y-4 bg-gray-900">
+          {messages.map((msg, index) => (
+            <div key={index} className="flex flex-col">
+              <span className={`text-sm ${msg.sender === "user" ? "text-blue-400" : "text-green-400"}`}>
+              </span>
+              <div
+                className={`max-w-[80%] px-4 py-2 rounded-md shadow-md ${
+                  msg.sender === "user"
+                    ? "bg-blue-600 text-white self-end"
+                    : "bg-gray-700 text-gray-300 self-start"
+                }`}
+              >
+                {msg.text}
+              </div>
+            </div>
+          ))}
+          <div ref={msgEnd} />
+        </div>
+        {error && <p className="text-red-500 text-center">{error}</p>}
+
+        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700 flex bg-gray-800">
+          <input
+            className="flex-grow px-4 py-2 text-white bg-gray-700 rounded-md outline-none focus:ring focus:ring-blue-500"
+            type="text"
+            value={prompt}
+            onChange={handleInputChange}
+            placeholder="Send a message..."
+            required
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="ml-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
+          >
+            {loading ? "Thinking..." : "Send"}
+          </button>
+        </form>
       </div>
     </div>
   );
